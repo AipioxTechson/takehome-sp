@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
-from threading import Lock
+from threading import Lock, Thread
+import time
 
 from Processor import DriverProcessor, Processor
-
 
 class Listener(ABC):
   '''Abstract model for a Collating Listener'''
@@ -54,6 +54,14 @@ class CollatingListener(Listener):
       self.lock.release()
       
 
+def driverCode(listener, expected_list_of_messages,ID):
+  '''Multi threaded driver code'''
+
+  for message in expected_list_of_messages:
+    print(f'{ID} PROCESSING', message)
+    listener.process(message)
+    
+
 if __name__ == "__main__":
   processor = DriverProcessor()
   messages_obtained = set()
@@ -65,4 +73,21 @@ if __name__ == "__main__":
   listener.process([0])
   listener.process([2])
   listener.process([3,5,6,7])
+
+  # #Multi threaded example code
+  # processor = DriverProcessor()
+  #messages_obtained = set()
+  # lock = Lock()
+  # listener1 = CollatingListener(processor, messages_obtained, lock)
+  # listener2 = CollatingListener(processor, messages_obtained, lock)
+  
+  # t1 = Thread(target=driverCode,args=(listener1, [[1,4],[2]],'1'))
+  # t2 = Thread(target=driverCode,args=(listener2, [[0],[3,5,6,7]],'2'))
+
+  # t1.start()
+  # t2.start()
+
+  # t2.join()
+  # t1.join()
+
 
