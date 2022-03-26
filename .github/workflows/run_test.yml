@@ -1,0 +1,20 @@
+name: On Push Run
+
+on: push
+
+jobs:
+  run-tests:
+    name: Run Pyhton tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+          with:
+            python-version: '3.9.10'
+
+      - name: Run test
+        run: make test
+        shell: sh
