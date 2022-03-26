@@ -16,8 +16,6 @@ This code is supported natively using Python 3.9.10
 
 `Processor.py` - source code for a Processor
 
-`requirements.txt` - the virtual environment file needed to run this code
-
 ## Usage
 
 To run the tests, run `make test` or `make`. This will run the code against all of the automated tests provided
